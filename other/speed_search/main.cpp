@@ -4,7 +4,6 @@
 #include <filesystem>
 #include <fstream>
 #include <vector>
-#include <string>
 
 void getLastLine(std::fstream& stream, std::string& line)
 {
@@ -157,15 +156,12 @@ int main()
     std::string hash = "86ab5710b846338c8bd589b751767f8a";
 
     auto start = std::chrono::high_resolution_clock::now();
-
     std::string word = searchWord(searchFile(path, hash), hash);
-
     auto stop = std::chrono::high_resolution_clock::now();
 
     std::cout << word << std::endl;
 
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-
     std::cout << "seconds = " << duration.count() / double(1000) << std::endl;
 
     return 0;
