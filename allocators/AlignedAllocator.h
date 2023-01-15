@@ -10,7 +10,7 @@ public:
     {}
 
     template<typename T>
-    T* alignedAlloc( size_t alignment = alignof(T) )
+    T* alignedAlloc( std::size_t alignment = alignof(T) )
     {
         if (std::align(alignment, sizeof(T), _pointer, _freeSize))
         {
