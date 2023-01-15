@@ -6,17 +6,17 @@ template <std::size_t N>
 class AlignedAllocator
 {
 public:
-    AlignedAllocator() : pointer(data), freeSize(N)
+    AlignedAllocator() : _pointer(_data), _freeSize(N)
     {}
 
     template<typename T>
     T* alignedAlloc( size_t alignment = alignof(T) )
     {
-        if (std::align(alignment, sizeof(T), pointer, freeSize))
+        if (std::align(alignment, sizeof(T), _pointer, _freeSize))
         {
-            T* result = reinterpret_cast<T*>(pointer);
-            pointer = (char*)pointer + sizeof(T);
-            freeSize -= sizeof(T);
+            T* result = reinterpret_cast<T*>(_pointer);
+            _pointer = (char*)_pointer + sizeof(T);
+            _freeSize -= sizeof(T);
 
             return result;
         }
@@ -25,9 +25,9 @@ public:
     }
 
 private:
-    char data[N];
-    void* pointer;
-    std::size_t freeSize;
+    char _data[N];
+    void* _pointer;
+    std::size_t _freeSize;
 };
 
 
