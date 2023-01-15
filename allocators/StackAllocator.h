@@ -1,36 +1,37 @@
 #ifndef STACKALLOCATOR_H
 #define STACKALLOCATOR_H
 
-template<typename T>
+
 class StackAllocator
 {
 public:
     StackAllocator() = delete;
 
-    StackAllocator(size_t size) : _freeSize(size), _pointer(_data)
+    explicit StackAllocator(size_t size) : _freeSize(size)
     {
-        _data = new(size);
+        _data = new char[size];
+        _pointer = _data;
     }
 
     ~StackAllocator()
     {
-        delete data;
+        delete[] _data;
     }
 
-    T* allocate(size_t n)
+    template<typename T>
+    T* allocate()
     {
-        if (n + sizeof(std::size_t) > _freeSize)
+        if (sizeof(T) + sizeof(std::size_t) > _freeSize)
         {
             throw std::bad_alloc();
         }
 
         T* result = reinterpret_cast<T*>(_pointer);
-        _pointer = (char*)_pointer + n;
-        ::operator new (_pointer) std::size_t(n)
-        _pointer = (char*)_pointer + sizeof(std::size_t);
+        _pointer = (char*)_pointer + sizeof(T);
+        new (_pointer) size_t(sizeof(T));
+        _pointer = (char*)_pointer + sizeof(size_t);
 
-        _freeSize -= n + sizeof(std::size_t);
-        _count += 1;
+        _freeSize -= sizeof(T) + sizeof(std::size_t);
 
         return result;
     }
@@ -47,19 +48,20 @@ public:
         _pointer = (char*)_pointer - size;
     }
 
-    template<typename... Args>
+    template<typename T, typename... Args>
     void construct(T* xp, Args&&... args)
     {
         new (xp) T(std::forward<Args>(args)...);
     }
 
+    template<typename T>
     void destroy(T* xp)
     {
         xp->~T();
     }
 
 private:
-    void* _data;
+    char* _data;
     void* _pointer;
     std::size_t _freeSize;
 };
