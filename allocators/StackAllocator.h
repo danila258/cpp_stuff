@@ -2,21 +2,12 @@
 #define STACKALLOCATOR_H
 
 
+template<size_t N>
 class StackAllocator
 {
 public:
-    StackAllocator() = delete;
-
-    explicit StackAllocator(size_t size) : _freeSize(size)
-    {
-        _data = new char[size];
-        _pointer = _data;
-    }
-
-    ~StackAllocator()
-    {
-        delete[] _data;
-    }
+    StackAllocator() : _pointer(_data), _freeSize(N)
+    {}
 
     template<typename T>
     T* allocate()
@@ -61,7 +52,7 @@ public:
     }
 
 private:
-    char* _data;
+    char* _data[N];
     void* _pointer;
     std::size_t _freeSize;
 };

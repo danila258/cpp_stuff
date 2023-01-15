@@ -2,7 +2,7 @@
 #define ALIGNEDALLOCATOR_H
 
 
-template <std::size_t N>
+template <size_t N>
 class AlignedAllocator
 {
 public:
@@ -10,7 +10,7 @@ public:
     {}
 
     template<typename T>
-    T* alignedAlloc( std::size_t alignment = alignof(T) )
+    T* alignedAlloc( size_t alignment = alignof(T) )
     {
         if (std::align(alignment, sizeof(T), _pointer, _freeSize))
         {
@@ -27,7 +27,7 @@ public:
 private:
     char _data[N];
     void* _pointer;
-    std::size_t _freeSize;
+    size_t _freeSize;
 };
 
 
