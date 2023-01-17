@@ -1,6 +1,8 @@
 #ifndef STACKALLOCATOR_H
 #define STACKALLOCATOR_H
 
+#include <stdlib.h>
+
 
 template<size_t N>
 class StackAllocator

@@ -1,6 +1,8 @@
 #ifndef ALIGNEDALLOCATOR_H
 #define ALIGNEDALLOCATOR_H
 
+#include <stdlib.h>
+
 
 template <size_t N>
 class AlignedAllocator
