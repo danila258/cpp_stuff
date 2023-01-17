@@ -222,4 +222,4 @@ typename bitset<N,T>::bit_reference bitset<N,T>::operator[](size_t pos)
 }
 
 
-#endif //BOOL_ARRAY_H
+#endif //BITSET_H
